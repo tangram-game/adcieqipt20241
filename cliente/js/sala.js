@@ -5,12 +5,15 @@ export default class sala extends Phaser.Scene {
 
   preload () {
     this.load.image('fundo', './assets/fundo.png')
+    this.load.audio('iniciar', './assets/iniciar.mp3')
   }
 
   create () {
+    this.iniciar = this.sound.add('iniciar')
     this.add.image(400, 225, 'fundo')
       .setInteractive()
       .on('pointerdown', () => {
+        this.iniciar.play()
         globalThis.game.sala = 1
         globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
       })
