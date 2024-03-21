@@ -8,10 +8,16 @@ export default class mapa extends Phaser.Scene {
 
     this.load.spritesheet('coruja-branca', './assets/coruja-branca.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('coruja-cinza', './assets/coruja-cinza.png', { frameWidth: 64, frameHeight: 64 })
+
+    this.load.audio('coruja-som', './assets/coruja.mp3')
+    this.load.audio('trilha', './assets/mapa.mp3')
   }
 
   create () {
-    const fundo = this.add.image(400, 225, 'fundo')
+    this.corujaSom = this.sound.add('coruja-som')
+    this.trilha = this.sound.add('trilha', { loop: true }).play()
+
+    this.add.image(400, 225, 'fundo')
 
     if (globalThis.game.jogadores.primeiro === globalThis.game.socket.id) {
       globalThis.game.remoteConnection = new RTCPeerConnection(globalThis.game.iceServers)
@@ -111,6 +117,7 @@ export default class mapa extends Phaser.Scene {
     this.personagemLocal
       .setInteractive()
       .on('pointerdown', () => {
+        this.corujaSom.play()
         this.personagemLocal.setVelocityX(10)
         this.personagemLocal.play('personagem-voando-direita')
       })
