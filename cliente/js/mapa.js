@@ -27,6 +27,8 @@ export default class mapa extends Phaser.Scene {
   }
 
   create () {
+    this.input.addPointer(3);
+
     this.sound.add('mapa', { loop: true }).play()
 
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
@@ -51,7 +53,7 @@ export default class mapa extends Phaser.Scene {
     this.layerParedes = this.tilemapMapa.createLayer('paredes', [this.tilesetBlocos, this.tilesetParedes])
 
     this.anims.create({
-      key: 'coruja-cinza-parada',
+      key: 'coruja-cinza-parada-esquerda',
       frames: this.anims.generateFrameNumbers('coruja-cinza', { start: 0, end: 1 }),
       frameRate: 1,
       repeat: -1
@@ -65,8 +67,15 @@ export default class mapa extends Phaser.Scene {
     })
 
     this.anims.create({
+      key: 'coruja-cinza-parada-direita',
+      frames: this.anims.generateFrameNumbers('coruja-cinza', { start: 6, end: 7 }),
+      frameRate: 1,
+      repeat: -1
+    })
+
+    this.anims.create({
       key: 'coruja-cinza-voando-direita',
-      frames: this.anims.generateFrameNumbers('coruja-cinza', { start: 6, end: 9 }),
+      frames: this.anims.generateFrameNumbers('coruja-cinza', { start: 8, end: 11 }),
       frameRate: 10,
       repeat: -1
     })
@@ -77,10 +86,12 @@ export default class mapa extends Phaser.Scene {
       .on('pointerover', () => {
         this.cima.setFrame(1)
         this.personagem.setVelocityY(-50)
+        this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.cima.setFrame(0)
         this.personagem.setVelocityY(0)
+        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
       })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
@@ -89,10 +100,12 @@ export default class mapa extends Phaser.Scene {
       .on('pointerover', () => {
         this.baixo.setFrame(1)
         this.personagem.setVelocityY(50)
+        this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.baixo.setFrame(0)
         this.personagem.setVelocityY(0)
+        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
@@ -101,10 +114,13 @@ export default class mapa extends Phaser.Scene {
       .on('pointerover', () => {
         this.esquerda.setFrame(1)
         this.personagem.setVelocityX(-50)
+        this.personagemLado = 'esquerda'
+        this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
         this.personagem.setVelocityX(0)
+        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
       })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
@@ -113,10 +129,13 @@ export default class mapa extends Phaser.Scene {
       .on('pointerover', () => {
         this.direita.setFrame(1)
         this.personagem.setVelocityX(50)
+        this.personagemLado = 'direita'
+        this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagem.setVelocityX(0)
+        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
       })
 
     this.personagem
@@ -127,6 +146,8 @@ export default class mapa extends Phaser.Scene {
       })
 
     this.cameras.main.startFollow(this.personagem)
+    this.personagemLado = 'esquerda'
+    this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
   }
 
   update () {
