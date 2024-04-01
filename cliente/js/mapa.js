@@ -19,6 +19,11 @@ export default class mapa extends Phaser.Scene {
     this.load.image('sombras', './assets/mapa/sombras.png')
 
     this.load.spritesheet('coruja-cinza', './assets/coruja-cinza.png', { frameWidth: 64, frameHeight: 64 })
+
+    this.load.spritesheet('cima', './assets/cima.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('baixo', './assets/baixo.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('esquerda', './assets/esquerda.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('direita', './assets/direita.png', { frameWidth: 64, frameHeight: 64 })
   }
 
   create () {
@@ -65,6 +70,54 @@ export default class mapa extends Phaser.Scene {
       frameRate: 10,
       repeat: -1
     })
+
+    this.cima = this.add.sprite(100, 250, 'cima', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.cima.setFrame(1)
+        this.personagem.setVelocityY(-50)
+      })
+      .on('pointerout', () => {
+        this.cima.setFrame(0)
+        this.personagem.setVelocityY(0)
+      })
+
+    this.baixo = this.add.sprite(100, 350, 'baixo', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.baixo.setFrame(1)
+        this.personagem.setVelocityY(50)
+      })
+      .on('pointerout', () => {
+        this.baixo.setFrame(0)
+        this.personagem.setVelocityY(0)
+      })
+
+    this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.esquerda.setFrame(1)
+        this.personagem.setVelocityX(-50)
+      })
+      .on('pointerout', () => {
+        this.esquerda.setFrame(0)
+        this.personagem.setVelocityX(0)
+      })
+
+    this.direita = this.add.sprite(700, 350, 'direita', 0)
+      .setScrollFactor(0)
+      .setInteractive()
+      .on('pointerover', () => {
+        this.direita.setFrame(1)
+        this.personagem.setVelocityX(50)
+      })
+      .on('pointerout', () => {
+        this.direita.setFrame(0)
+        this.personagem.setVelocityX(0)
+      })
 
     this.personagem
       .setInteractive()
