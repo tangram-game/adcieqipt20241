@@ -47,10 +47,12 @@ export default class mapa extends Phaser.Scene {
     this.layerSombras = this.tilemapMapa.createLayer('sombras', [this.tilesetSombrasPlantas, this.tilesetSombras])
     this.layerPlantas = this.tilemapMapa.createLayer('plantas', [this.tilesetPlantas])
     this.layerItens = this.tilemapMapa.createLayer('itens', [this.tilesetItens])
+    this.layerParedes = this.tilemapMapa.createLayer('paredes', [this.tilesetBlocos, this.tilesetParedes])
 
     this.personagem = this.physics.add.sprite(400, 225, 'coruja-cinza')
 
-    this.layerParedes = this.tilemapMapa.createLayer('paredes', [this.tilesetBlocos, this.tilesetParedes])
+    this.layerParedes.setCollisionByProperty({ collides: true })
+    this.physics.add.collider(this.personagem, this.layerParedes)
 
     this.anims.create({
       key: 'coruja-cinza-parada-esquerda',
