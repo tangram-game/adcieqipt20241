@@ -27,7 +27,7 @@ export default class mapa extends Phaser.Scene {
   }
 
   create () {
-    this.input.addPointer(3);
+    this.input.addPointer(3)
 
     this.sound.add('mapa', { loop: true }).play()
 
@@ -91,7 +91,9 @@ export default class mapa extends Phaser.Scene {
       .on('pointerout', () => {
         this.cima.setFrame(0)
         this.personagem.setVelocityY(0)
-        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        if (this.personagem.body.velocity.x === 0) {
+          this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        }
       })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
@@ -105,7 +107,9 @@ export default class mapa extends Phaser.Scene {
       .on('pointerout', () => {
         this.baixo.setFrame(0)
         this.personagem.setVelocityY(0)
-        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        if (this.personagem.body.velocity.x === 0) {
+          this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        }
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
@@ -120,7 +124,9 @@ export default class mapa extends Phaser.Scene {
       .on('pointerout', () => {
         this.esquerda.setFrame(0)
         this.personagem.setVelocityX(0)
-        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        if (this.personagem.body.velocity.y === 0) {
+          this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        }
       })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
@@ -135,14 +141,9 @@ export default class mapa extends Phaser.Scene {
       .on('pointerout', () => {
         this.direita.setFrame(0)
         this.personagem.setVelocityX(0)
-        this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
-      })
-
-    this.personagem
-      .setInteractive()
-      .on('pointerdown', () => {
-        this.personagem.anims.play('coruja-cinza-voando-direita')
-        this.personagem.setVelocityX(50)
+        if (this.personagem.body.velocity.y === 0) {
+          this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+        }
       })
 
     this.cameras.main.startFollow(this.personagem)
