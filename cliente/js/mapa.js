@@ -19,6 +19,7 @@ export default class mapa extends Phaser.Scene {
     this.load.image('sombras', './assets/mapa/sombras.png')
 
     this.load.spritesheet('coruja-cinza', './assets/coruja-cinza.png', { frameWidth: 64, frameHeight: 64 })
+    this.load.spritesheet('nuvem', './assets/nuvem.png', { frameWidth: 64, frameHeight: 64 })
 
     this.load.spritesheet('cima', './assets/cima.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('baixo', './assets/baixo.png', { frameWidth: 64, frameHeight: 64 })
@@ -151,8 +152,33 @@ export default class mapa extends Phaser.Scene {
     this.cameras.main.startFollow(this.personagem)
     this.personagemLado = 'esquerda'
     this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
+
+    this.nuvens = []
+    for (let i = 0; i < 10; i++) {
+      const nuvem = this.physics.add.sprite(
+        Phaser.Math.Between(0, globalThis.game.config.width),
+        Phaser.Math.Between(0, globalThis.game.config.height),
+        'nuvem', 0
+      )
+      nuvem.overlap = this.physics.add.overlap(this.personagem, nuvem, this.coletarNuvem, null, this)
+      this.nuvens.push(nuvem)
+    }
+
+    this.anims.create({
+      key: 'nuvem',
+      frames: this.anims.generateFrameNumbers('nuvem', { start: 0, end: 7 }),
+      frameRate: 8
+    })
   }
 
   update () {
+  }
+
+  coletarNuvem (personagem, nuvem) {
+    nuvem.overlap.destroy()
+    nuvem.anims.play('nuvem')
+    nuvem.once('animationcomplete', () => {
+      nuvem.disableBody(true, true)
+    })
   }
 }
