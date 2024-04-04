@@ -5,6 +5,7 @@ export default class mapa extends Phaser.Scene {
 
   preload () {
     this.load.audio('mapa', './assets/mapa.mp3')
+    this.load.audio('coruja', './assets/coruja.mp3')
 
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
 
@@ -31,6 +32,7 @@ export default class mapa extends Phaser.Scene {
     this.input.addPointer(3)
 
     this.sound.add('mapa', { loop: true }).play()
+    this.corujaPio = this.sound.add('coruja')
 
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
@@ -175,6 +177,7 @@ export default class mapa extends Phaser.Scene {
   }
 
   coletarNuvem (personagem, nuvem) {
+    this.corujaPio.play()
     nuvem.overlap.destroy()
     nuvem.anims.play('nuvem')
     nuvem.once('animationcomplete', () => {
