@@ -90,7 +90,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.cima.setFrame(1)
-        this.personagem.setVelocityY(-50)
+        this.personagem.setVelocityY(-100)
         this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
       .on('pointerout', () => {
@@ -106,7 +106,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.baixo.setFrame(1)
-        this.personagem.setVelocityY(50)
+        this.personagem.setVelocityY(100)
         this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
       .on('pointerout', () => {
@@ -122,7 +122,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.esquerda.setFrame(1)
-        this.personagem.setVelocityX(-50)
+        this.personagem.setVelocityX(-100)
         this.personagemLado = 'esquerda'
         this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
@@ -139,7 +139,7 @@ export default class mapa extends Phaser.Scene {
       .setInteractive()
       .on('pointerover', () => {
         this.direita.setFrame(1)
-        this.personagem.setVelocityX(50)
+        this.personagem.setVelocityX(100)
         this.personagemLado = 'direita'
         this.personagem.anims.play('coruja-cinza-voando-' + this.personagemLado)
       })
@@ -156,7 +156,7 @@ export default class mapa extends Phaser.Scene {
     this.personagem.anims.play('coruja-cinza-parada-' + this.personagemLado)
 
     this.nuvens = []
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 100; i++) {
       const nuvem = this.physics.add.sprite(
         Phaser.Math.Between(0, globalThis.game.config.width),
         Phaser.Math.Between(0, globalThis.game.config.height),
