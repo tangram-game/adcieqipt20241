@@ -115,23 +115,47 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal = this.physics.add.sprite(400, 225, 'coruja-cinza')
       this.personagemRemoto = this.physics.add.sprite(400, 225, 'coruja-branca')
 
-      // Criar a lista de nuvens no mapa
-      // para propagar depois via DataChannel
+      const centroX = Array(128)
+        .fill()
+        .map((empty, index) => index + 0)
+        .map(numero => numero + globalThis.game.config.width / 2 - this.personagemLocal.width / 2)
+      const areaX = Array(globalThis.game.config.width)
+        .fill()
+        .map((empty, index) => index + 0)
+        .filter(numero => !centroX.includes(numero))
+
+      const centroY = Array(128)
+        .fill()
+        .map((empty, index) => index + 0)
+        .map(numero => numero + globalThis.game.config.height / 2 - this.personagemLocal.height / 2)
+      const areaY = Array(globalThis.game.config.height)
+        .fill()
+        .map((empty, index) => index + 0)
+        .filter(numero => !centroY.includes(numero))
+
       this.nuvens = []
-      for (let i = 0; i < 100; i++) {
-        const nuvem = this.physics.add.sprite(
-          Phaser.Math.Between(0, globalThis.game.config.width),
-          Phaser.Math.Between(0, globalThis.game.config.height),
-          'nuvem', 0
-        )
-        nuvem.overlap = this.physics.add.overlap(this.personagemLocal, nuvem, this.coletarNuvem, null, this)
-        this.nuvens.push(nuvem)
-      }
+      Array(100)
+        .fill()
+        .forEach(() => {
+          const nuvem = this.physics.add.sprite(
+            areaX[Math.floor(Math.random() * areaX.length)],
+            areaY[Math.floor(Math.random() * areaY.length)],
+            'nuvem',
+            0
+          )
+          nuvem.overlap = this.physics.add.overlap(this.personagemLocal, nuvem, this.coletarNuvem, null, this)
+          this.nuvens.push(nuvem)
+        })
     } else {
+      // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
+      globalThis.game.scene.stop('mapa')
+      globalThis.game.scene.start('sala')
     }
 
+    // Define o atributo do tileset para gerar colisão
     this.layerParedes.setCollisionByProperty({ collides: true })
+    // Adiciona colisão entre o personagem e as paredes
     this.physics.add.collider(this.personagemLocal, this.layerParedes)
 
     this.anims.create({
@@ -175,73 +199,110 @@ export default class mapa extends Phaser.Scene {
     })
 
     this.cima = this.add.sprite(100, 250, 'cima', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Toca o som da coruja
+        this.corujaPio.play()
+        // Altera o frame do botão para pressionado
         this.cima.setFrame(1)
+        // Faz o personagem voar para cima
         this.personagemLocal.setVelocityY(-100)
+        // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
-      .on('pointerout', () => {
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
         this.cima.setFrame(0)
+        // Para o personagem
         this.personagemLocal.setVelocityY(0)
+        // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
         if (this.personagemLocal.body.velocity.x === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
         }
       })
 
     this.baixo = this.add.sprite(100, 350, 'baixo', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Toca o som da coruja
+        this.corujaPio.play()
+        // Altera o frame do botão para pressionado
         this.baixo.setFrame(1)
+        // Faz o personagem voar para baixo
         this.personagemLocal.setVelocityY(100)
+        // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
-      .on('pointerout', () => {
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
         this.baixo.setFrame(0)
+        // Para o personagem
         this.personagemLocal.setVelocityY(0)
+        // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
         if (this.personagemLocal.body.velocity.x === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
         }
       })
 
     this.esquerda = this.add.sprite(600, 350, 'esquerda', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Toca o som da coruja
+        this.corujaPio.play()
+        // Altera o frame do botão para pressionado
         this.esquerda.setFrame(1)
+        // Faz o personagem voar para a esquerda
         this.personagemLocal.setVelocityX(-100)
+        // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'esquerda'
+        // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
-      .on('pointerout', () => {
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
         this.esquerda.setFrame(0)
+        // Para o personagem
         this.personagemLocal.setVelocityX(0)
+        // Se o personagem não estiver se movendo na vertical, anima o personagem parado
         if (this.personagemLocal.body.velocity.y === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
         }
       })
 
     this.direita = this.add.sprite(700, 350, 'direita', 0)
-      .setScrollFactor(0)
-      .setInteractive()
-      .on('pointerover', () => {
+      .setScrollFactor(0) // não se move com a câmera
+      .setInteractive() // permite interação com o sprite
+      .on('pointerdown', () => {
+        // Toca o som da coruja
+        this.corujaPio.play()
+        // Altera o frame do botão para pressionado
         this.direita.setFrame(1)
+        // Faz o personagem voar para a direita
         this.personagemLocal.setVelocityX(100)
+        // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'direita'
+        // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
-      .on('pointerout', () => {
+      .on('pointerup', () => {
+        // Altera o frame do botão para o estado original
         this.direita.setFrame(0)
+        // Para o personagem
         this.personagemLocal.setVelocityX(0)
+        // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
         if (this.personagemLocal.body.velocity.y === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
         }
       })
 
+    // Inicia a câmera seguindo o personagem
     this.cameras.main.startFollow(this.personagemLocal)
+    // Começa a cena com o personagem virado para a esquerda
     this.personagemLocal.lado = 'esquerda'
+    // Começa a cena com o personagem animado parado
     this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
 
     this.anims.create({
@@ -250,29 +311,57 @@ export default class mapa extends Phaser.Scene {
       frameRate: 8
     })
 
+    // Gera mensagem de log quando a conexão de dados é aberta
     globalThis.game.dadosJogo.onopen = () => {
       console.log('Conexão de dados aberta!')
     }
 
+    // Processa as mensagens recebidas via DataChannel
     globalThis.game.dadosJogo.onmessage = (event) => {
       const dados = JSON.parse(event.data)
 
+      // Verifica se os dados recebidos contêm informações sobre o personagem
       if (dados.personagem) {
         this.personagemRemoto.x = dados.personagem.x
         this.personagemRemoto.y = dados.personagem.y
         this.personagemRemoto.setFrame(dados.personagem.frame)
       }
 
+      // Verifica se os dados recebidos contêm informações sobre as nuvens
       if (dados.nuvens) {
-        console.log(dados.nuvens)
+        // Atualiza as nuvens a partir do outro jogador
+        if (this.nuvens) {
+          this.nuvens.forEach((nuvem, i) => {
+            // Desativa as nuvens que não estão visíveis
+            if (!dados.nuvens[i].visible) {
+              nuvem.disableBody(true, true)
+            }
+          })
+        } else {
+          // Cria as nuvens a partir do outro jogador
+          this.nuvens = []
+          dados.nuvens.forEach(nuvem => {
+            // Cria a nuvem
+            const n = this.physics.add.sprite(nuvem.x, nuvem.y, 'nuvem', 0)
+            // Adiciona overlap e associa à nuvem
+            n.overlap = this.physics.add.overlap(this.personagemLocal, n, this.coletarNuvem, null, this)
+            // Adiciona a nuvem à lista de nuvens
+            this.nuvens.push(n)
+          })
+        }
       }
     }
   }
 
   update () {
+    // Alguns frames podem estar (ainda) sem personagem ou nuvem,
+    // por isso é necessário verificar se existem antes de enviar
     try {
+      // Envia os dados do jogo somente se houver conexão aberta
       if (globalThis.game.dadosJogo.readyState === 'open') {
+        // Verifica que o personagem local existe
         if (this.personagemLocal) {
+          // Envia os dados do personagem local via DataChannel
           globalThis.game.dadosJogo.send(JSON.stringify({
             personagem: {
               x: this.personagemLocal.x,
@@ -282,35 +371,30 @@ export default class mapa extends Phaser.Scene {
           }))
         }
 
-        // Precisa de outra variável de cena
-        // como máquina de estado
-        // para enviar somente uma vez
+        // Verifica que as nuvens existem
         if (this.nuvens) {
-          // enviar via datachannel
-          //     globalThis.game.dadosJogo.send(
-          // JSON.stringify({ nuvens: this.nuvens.map(nuvem => nuvem.visible) }))
-          //     )
+          // Envia os dados das nuvens via DataChannel
+          globalThis.game.dadosJogo.send(JSON.stringify({
+            nuvens: this.nuvens.map(nuvem => (nuvem => ({
+              x: nuvem.x,
+              y: nuvem.y,
+              visible: nuvem.visible
+            }))(nuvem))
+          }))
         }
       }
+      // Caso a conexão não esteja aberta, gera erro na console
     } catch (error) {
       console.error(error)
     }
   }
 
   coletarNuvem (personagem, nuvem) {
-    this.corujaPio.play()
+    // Desativa o overlap entre personagem e nuvem
     nuvem.overlap.destroy()
+    // Anima a nuvem
     nuvem.anims.play('nuvem')
-
-    // try {
-    //   if (globalThis.game.dadosJogo.readyState === 'open') {
-    //       // Enviar somente a nuvem que foi coletada
-    //       // ao invés de todas as nuvens visíveis
-    //   }
-    // } catch (error) {
-    //   console.error(error)
-    // }
-
+    // Assim que a animação terminar, desativa a nuvem
     nuvem.once('animationcomplete', () => {
       nuvem.disableBody(true, true)
     })
