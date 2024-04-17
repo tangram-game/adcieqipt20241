@@ -4,15 +4,17 @@ export default class sala extends Phaser.Scene {
   }
 
   preload () {
-    this.load.image('fundo', './assets/fundo.png')
-
     this.load.audio('iniciar', './assets/iniciar.mp3')
+
+    this.load.image('fundo', './assets/fundo.png')
   }
 
   create () {
     this.iniciar = this.sound.add('iniciar')
 
     this.add.image(400, 225, 'fundo')
+
+    this.mensagem = this.add.text(100, 50, 'Sala 1')
       .setInteractive()
       .on('pointerdown', () => {
         this.iniciar.play()
@@ -20,13 +22,11 @@ export default class sala extends Phaser.Scene {
         globalThis.game.socket.emit('entrar-na-sala', globalThis.game.sala)
       })
 
-    this.mensagem = this.add.text(100, 75, 'Clique para entrar na sala')
-
     globalThis.game.socket.on('jogadores', (jogadores) => {
       console.log(jogadores)
+
       if (jogadores.segundo) {
         this.mensagem.setText('Conectando...')
-
         globalThis.game.jogadores = jogadores
         globalThis.game.scene.stop('sala')
         globalThis.game.scene.start('mapa')
