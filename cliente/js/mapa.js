@@ -115,30 +115,6 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal = this.physics.add.sprite(400, 225, 'coruja-cinza')
       this.personagemRemoto = this.physics.add.sprite(400, 225, 'coruja-branca')
 
-      // Cria um intervalo de valores no eixo X em volta do personagem
-      const centroX = Array(128)
-        .fill()
-        .map((empty, index) => index + 0)
-        .map(numero => numero + globalThis.game.config.width / 2 - this.personagemLocal.width / 2)
-      // Cria um intervalo de valores no eixo X por toda a cena
-      // e exclui os valores do intervalo do personagem (centroX)
-      const areaX = Array(globalThis.game.config.width)
-        .fill()
-        .map((empty, index) => index + 0)
-        .filter(numero => !centroX.includes(numero))
-
-      // Cria um intervalo de valores no eixo Y em volta do personagem
-      const centroY = Array(128)
-        .fill()
-        .map((empty, index) => index + 0)
-        .map(numero => numero + globalThis.game.config.height / 2 - this.personagemLocal.height / 2)
-      // Cria um intervalo de valores no eixo Y por toda a cena
-      // e exclui os valores do intervalo do personagem (centroY)
-      const areaY = Array(globalThis.game.config.height)
-        .fill()
-        .map((empty, index) => index + 0)
-        .filter(numero => !centroY.includes(numero))
-
       // Cria lista vazia para armazenar as nuvens
       this.nuvens = []
 
@@ -147,8 +123,8 @@ export default class mapa extends Phaser.Scene {
         .fill()
         .forEach(() => {
           const nuvem = this.physics.add.sprite(
-            areaX[Math.floor(Math.random() * areaX.length)],
-            areaY[Math.floor(Math.random() * areaY.length)],
+            Phaser.Math.Between(0, 1024), // altura do mapa
+            Phaser.Math.Between(0, 1024), // largura do mapa
             'nuvem',
             0
           )
