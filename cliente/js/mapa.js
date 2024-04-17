@@ -115,25 +115,34 @@ export default class mapa extends Phaser.Scene {
       this.personagemLocal = this.physics.add.sprite(400, 225, 'coruja-cinza')
       this.personagemRemoto = this.physics.add.sprite(400, 225, 'coruja-branca')
 
+      // Cria um intervalo de valores no eixo X em volta do personagem
       const centroX = Array(128)
         .fill()
         .map((empty, index) => index + 0)
         .map(numero => numero + globalThis.game.config.width / 2 - this.personagemLocal.width / 2)
+      // Cria um intervalo de valores no eixo X por toda a cena
+      // e exclui os valores do intervalo do personagem (centroX)
       const areaX = Array(globalThis.game.config.width)
         .fill()
         .map((empty, index) => index + 0)
         .filter(numero => !centroX.includes(numero))
 
+      // Cria um intervalo de valores no eixo Y em volta do personagem
       const centroY = Array(128)
         .fill()
         .map((empty, index) => index + 0)
         .map(numero => numero + globalThis.game.config.height / 2 - this.personagemLocal.height / 2)
+      // Cria um intervalo de valores no eixo Y por toda a cena
+      // e exclui os valores do intervalo do personagem (centroY)
       const areaY = Array(globalThis.game.config.height)
         .fill()
         .map((empty, index) => index + 0)
         .filter(numero => !centroY.includes(numero))
 
+      // Cria lista vazia para armazenar as nuvens
       this.nuvens = []
+
+      // Cria 100 nuvens em posições aleatórias (longe do personagem)
       Array(100)
         .fill()
         .forEach(() => {
@@ -143,12 +152,15 @@ export default class mapa extends Phaser.Scene {
             'nuvem',
             0
           )
+          // Adiciona overlap entre personagem e nuvem
           nuvem.overlap = this.physics.add.overlap(this.personagemLocal, nuvem, this.coletarNuvem, null, this)
+          // Adiciona a nuvem à lista de nuvens
           this.nuvens.push(nuvem)
         })
     } else {
       // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
+      // Encerra a cena atual e inicia a cena de sala
       globalThis.game.scene.stop('mapa')
       globalThis.game.scene.start('sala')
     }
