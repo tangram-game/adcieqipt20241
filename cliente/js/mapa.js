@@ -4,11 +4,14 @@ export default class mapa extends Phaser.Scene {
   }
 
   preload () {
+    // Carrega os sons
     this.load.audio('mapa', './assets/mapa.mp3')
     this.load.audio('coruja', './assets/coruja.mp3')
 
+    // Carrega o mapa
     this.load.tilemapTiledJSON('mapa', './assets/mapa/mapa.json')
 
+    // Carrega as imagens do mapa
     this.load.image('blocos', './assets/mapa/blocos.png')
     this.load.image('grama', './assets/mapa/grama.png')
     this.load.image('itens', './assets/mapa/itens.png')
@@ -19,10 +22,12 @@ export default class mapa extends Phaser.Scene {
     this.load.image('sombras-plantas', './assets/mapa/sombras-plantas.png')
     this.load.image('sombras', './assets/mapa/sombras.png')
 
+    // Carrega as spritesheets dos personagens e artefatos
     this.load.spritesheet('coruja-cinza', './assets/coruja-cinza.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('coruja-branca', './assets/coruja-branca.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('nuvem', './assets/nuvem.png', { frameWidth: 64, frameHeight: 64 })
 
+    // Carrega as imagens dos botões
     this.load.spritesheet('cima', './assets/cima.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('baixo', './assets/baixo.png', { frameWidth: 64, frameHeight: 64 })
     this.load.spritesheet('esquerda', './assets/esquerda.png', { frameWidth: 64, frameHeight: 64 })
@@ -30,13 +35,17 @@ export default class mapa extends Phaser.Scene {
   }
 
   create () {
+    // Adiciona um ponteiro de toque (padrão: 2)
     this.input.addPointer(3)
 
+    // Adiciona o som de fundo e o som da coruja
     this.sound.add('mapa', { loop: true }).play()
     this.corujaPio = this.sound.add('coruja')
 
+    // Cria o objeto do mapa
     this.tilemapMapa = this.make.tilemap({ key: 'mapa' })
 
+    // Cria os tilesets do mapa
     this.tilesetBlocos = this.tilemapMapa.addTilesetImage('blocos')
     this.tilesetGrama = this.tilemapMapa.addTilesetImage('grama')
     this.tilesetItens = this.tilemapMapa.addTilesetImage('itens')
@@ -47,6 +56,7 @@ export default class mapa extends Phaser.Scene {
     this.tilesetSombrasPlantas = this.tilemapMapa.addTilesetImage('sombras-plantas')
     this.tilesetSombras = this.tilemapMapa.addTilesetImage('sombras')
 
+    // Cria as camadas do mapa
     this.layerTerreno = this.tilemapMapa.createLayer('terreno', [this.tilesetGrama])
     this.layerSombras = this.tilemapMapa.createLayer('sombras', [this.tilesetSombrasPlantas, this.tilesetSombras])
     this.layerPlantas = this.tilemapMapa.createLayer('plantas', [this.tilesetPlantas])
@@ -81,6 +91,7 @@ export default class mapa extends Phaser.Scene {
         globalThis.game.remoteConnection.addIceCandidate(candidate)
       })
 
+      // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(400, 225, 'coruja-branca')
       this.personagemRemoto = this.physics.add.sprite(400, 225, 'coruja-cinza')
     } else if (globalThis.game.jogadores.segundo === globalThis.game.socket.id) {
@@ -112,6 +123,7 @@ export default class mapa extends Phaser.Scene {
         globalThis.game.localConnection.addIceCandidate(candidate)
       })
 
+      // Cria os sprites dos personagens local e remoto
       this.personagemLocal = this.physics.add.sprite(400, 225, 'coruja-cinza')
       this.personagemRemoto = this.physics.add.sprite(400, 225, 'coruja-branca')
 
