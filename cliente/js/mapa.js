@@ -130,12 +130,17 @@ export default class mapa extends Phaser.Scene {
           )
           // Adiciona overlap entre personagem e nuvem
           nuvem.overlap = this.physics.add.overlap(this.personagemLocal, nuvem, this.coletarNuvem, null, this)
+
           // Adiciona a nuvem à lista de nuvens
           this.nuvens.push(nuvem)
         })
+
+      // Cria variável de controle sobre nuvens modificadas
+      this.nuvensModificadas = true
     } else {
       // Gera mensagem de log para informar que o usuário está fora da partida
       console.log('Usuário não é o primeiro ou o segundo jogador. Não é possível iniciar a partida. ')
+
       // Encerra a cena atual e inicia a cena de sala
       globalThis.game.scene.stop('mapa')
       globalThis.game.scene.start('sala')
@@ -193,17 +198,22 @@ export default class mapa extends Phaser.Scene {
         // Toca o som da coruja
         this.corujaPio.play()
         // Altera o frame do botão para pressionado
+
         this.cima.setFrame(1)
+
         // Faz o personagem voar para cima
         this.personagemLocal.setVelocityY(-100)
+
         // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.cima.setFrame(0)
+
         // Para o personagem
         this.personagemLocal.setVelocityY(0)
+
         // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
         if (this.personagemLocal.body.velocity.x === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
@@ -216,18 +226,23 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         // Toca o som da coruja
         this.corujaPio.play()
+
         // Altera o frame do botão para pressionado
         this.baixo.setFrame(1)
+
         // Faz o personagem voar para baixo
         this.personagemLocal.setVelocityY(100)
+
         // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.baixo.setFrame(0)
+
         // Para o personagem
         this.personagemLocal.setVelocityY(0)
+
         // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
         if (this.personagemLocal.body.velocity.x === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
@@ -240,20 +255,26 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         // Toca o som da coruja
         this.corujaPio.play()
+
         // Altera o frame do botão para pressionado
         this.esquerda.setFrame(1)
+
         // Faz o personagem voar para a esquerda
         this.personagemLocal.setVelocityX(-100)
+
         // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'esquerda'
+
         // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.esquerda.setFrame(0)
+
         // Para o personagem
         this.personagemLocal.setVelocityX(0)
+
         // Se o personagem não estiver se movendo na vertical, anima o personagem parado
         if (this.personagemLocal.body.velocity.y === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
@@ -266,20 +287,26 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         // Toca o som da coruja
         this.corujaPio.play()
+
         // Altera o frame do botão para pressionado
         this.direita.setFrame(1)
+
         // Faz o personagem voar para a direita
         this.personagemLocal.setVelocityX(100)
+
         // Muda a variável de controle do lado do personagem
         this.personagemLocal.lado = 'direita'
+
         // Anima o personagem voando
         this.personagemLocal.anims.play('personagem-voando-' + this.personagemLocal.lado)
       })
       .on('pointerup', () => {
         // Altera o frame do botão para o estado original
         this.direita.setFrame(0)
+
         // Para o personagem
         this.personagemLocal.setVelocityX(0)
+
         // Se o personagem não estiver se movendo na horizontal, anima o personagem parado
         if (this.personagemLocal.body.velocity.y === 0) {
           this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
@@ -288,15 +315,17 @@ export default class mapa extends Phaser.Scene {
 
     // Inicia a câmera seguindo o personagem
     this.cameras.main.startFollow(this.personagemLocal)
+
     // Começa a cena com o personagem virado para a esquerda
     this.personagemLocal.lado = 'esquerda'
+
     // Começa a cena com o personagem animado parado
     this.personagemLocal.anims.play('personagem-parado-' + this.personagemLocal.lado)
 
     this.anims.create({
       key: 'nuvem',
       frames: this.anims.generateFrameNumbers('nuvem', { start: 0, end: 7 }),
-      frameRate: 8
+      frameRate: 32
     })
 
     // Gera mensagem de log quando a conexão de dados é aberta
@@ -331,12 +360,17 @@ export default class mapa extends Phaser.Scene {
           dados.nuvens.forEach(nuvem => {
             // Cria a nuvem
             const n = this.physics.add.sprite(nuvem.x, nuvem.y, 'nuvem', 0)
+
             // Adiciona overlap e associa à nuvem
             n.overlap = this.physics.add.overlap(this.personagemLocal, n, this.coletarNuvem, null, this)
+
             // Adiciona a nuvem à lista de nuvens
             this.nuvens.push(n)
           })
         }
+
+        // Atualiza as nuvens que estão visíveis
+        this.nuvensModificadas = false
       }
     }
   }
@@ -359,8 +393,8 @@ export default class mapa extends Phaser.Scene {
           }))
         }
 
-        // Verifica que as nuvens existem
-        if (this.nuvens) {
+        // Verifica se as nuvens existem e se foram modificadas
+        if (this.nuvens && this.nuvensModificadas) {
           // Envia os dados das nuvens via DataChannel
           globalThis.game.dadosJogo.send(JSON.stringify({
             nuvens: this.nuvens.map(nuvem => (nuvem => ({
@@ -369,6 +403,9 @@ export default class mapa extends Phaser.Scene {
               visible: nuvem.visible
             }))(nuvem))
           }))
+
+          // Altera a variável de controle de nuvens modificadas
+          this.nuvensModificadas = false
         }
       }
       // Caso a conexão não esteja aberta, gera erro na console
@@ -380,11 +417,17 @@ export default class mapa extends Phaser.Scene {
   coletarNuvem (personagem, nuvem) {
     // Desativa o overlap entre personagem e nuvem
     nuvem.overlap.destroy()
+
     // Anima a nuvem
     nuvem.anims.play('nuvem')
-    // Assim que a animação terminar, desativa a nuvem
+
+    // Assim que a animação terminar...
     nuvem.once('animationcomplete', () => {
+      // Desativa a nuvem (imagem e colisão)
       nuvem.disableBody(true, true)
+
+      // Muda variável de controle de nuvem
+      this.nuvensModificadas = true
     })
   }
 }
