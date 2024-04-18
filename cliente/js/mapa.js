@@ -385,6 +385,13 @@ export default class mapa extends Phaser.Scene {
         this.nuvensModificadas = false
       }
     }
+
+    // Adiciona placar de nuvens coletadas pelos dois jogadores
+    this.pontos = this.add.text(10, 10, 'Nuvens: 0', {
+      fontSize: '32px',
+      fill: '#0',
+      fontFamily: 'Courier New'
+    }).setScrollFactor(0)
   }
 
   update () {
@@ -405,23 +412,29 @@ export default class mapa extends Phaser.Scene {
           }))
         }
 
-        // Verifica se as nuvens existem e se foram modificadas
-        if (this.nuvens && this.nuvensModificadas) {
-          // Envia os dados das nuvens via DataChannel
-          globalThis.game.dadosJogo.send(JSON.stringify({
-            nuvens: this.nuvens.map(nuvem => (nuvem => ({
-              x: nuvem.x,
-              y: nuvem.y,
-              visible: nuvem.visible
-            }))(nuvem))
-          }))
+        // Verifica se as nuvens foram criadas
+        if (this.nuvens) {
+          // Verifica se as nuvens foram modificadas
+          if (this.nuvensModificadas) {
+            // Envia os dados das nuvens via DataChannel
+            globalThis.game.dadosJogo.send(JSON.stringify({
+              nuvens: this.nuvens.map(nuvem => (nuvem => ({
+                x: nuvem.x,
+                y: nuvem.y,
+                visible: nuvem.visible
+              }))(nuvem))
+            }))
 
-          // Altera a variável de controle de nuvens modificadas
-          this.nuvensModificadas = false
+            // Altera a variável de controle de nuvens modificadas
+            this.nuvensModificadas = false
+          }
+
+          // Atualiza o placar de nuvens coletadas pelos dois jogadores
+          this.pontos.setText('Nuvens: ' + this.nuvens.filter(nuvem => !nuvem.active).length)
         }
       }
-      // Caso a conexão não esteja aberta, gera erro na console
     } catch (error) {
+      // Gera mensagem de erro na console
       console.error(error)
     }
   }
