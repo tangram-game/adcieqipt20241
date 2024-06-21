@@ -11,9 +11,16 @@ export default class abertura extends Phaser.Scene {
     this.add.image(400, 225, 'fundo')
       .setInteractive()
       .on('pointerdown', () => {
-        this.game.scene.stop('abertura')
-        this.game.scene.start('sala')
+        navigator.mediaDevices.getUserMedia({ video: false, audio: true })
+          .then((stream) => {
+            globalThis.game.midias = stream
+          })
+          .catch((error) => console.error(error))
+
+        globalThis.game.scene.stop('abertura')
+        globalThis.game.scene.start('sala')
       })
+      .preFX.addBlur()
   }
 
   update () {

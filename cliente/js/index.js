@@ -7,10 +7,24 @@ class Game extends Phaser.Game {
   constructor () {
     super(config)
 
+    this.audio = document.querySelector('audio')
+    this.iceServers = {
+      iceServers: [
+        {
+          urls: 'stun:stun.l.google.com:19302'
+        }
+      ]
+    }
+
+    this.socket = io()
+    this.socket.on('connect', () => {
+      console.log('Conectado ao servidor!')
+    })
+
     this.scene.add('abertura', abertura)
     this.scene.add('sala', sala)
     this.scene.add('mapa', mapa)
-    this.scene.start('mapa')
+    this.scene.start('abertura')
   }
 }
 
