@@ -16,7 +16,7 @@ class Game extends Phaser.Game {
       ]
     }
 
-    this.socket = io()
+    this.socket = io({ path: "/adcieqipt20241/socket.io/" })
     this.socket.on('connect', () => {
       console.log('Conectado ao servidor!')
     })
