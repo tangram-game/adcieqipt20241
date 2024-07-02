@@ -8,15 +8,30 @@ class Game extends Phaser.Game {
     super(config)
 
     this.audio = document.querySelector('audio')
-    this.iceServers = {
-      iceServers: [
+
+    let iceServers
+    if (window.location.host === 'feira-de-jogos.dev.br') {
+      this.socket = io({ path: '/adcieqipt20241/socket.io/' })
+      iceServers = [
+        {
+          urls: 'stun:feira-de-jogos.dev.br'
+        },
+        {
+          urls: 'turns:feira-de-jogos.dev.br',
+          username: 'adcieqipt20241',
+          credential: 'adcieqipt20241'
+        }
+      ]
+    } else {
+      this.socket = io()
+      iceServers = [
         {
           urls: 'stun:stun.l.google.com:19302'
         }
       ]
     }
+    this.iceServers = { iceServers }
 
-    this.socket = io({ path: "/adcieqipt20241/socket.io/" })
     this.socket.on('connect', () => {
       console.log('Conectado ao servidor!')
     })
