@@ -1,6 +1,6 @@
 {
   "devDependencies": {
-    "standard": "*"
+    "standard": "^17.1.0"
   },
   "dependencies": {
     "express": "^4.19.2",

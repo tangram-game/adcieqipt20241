@@ -1,5 +1,3 @@
-import Phaser from 'phaser'
-
 export default class sala extends Phaser.Scene {
   constructor () {
     super('sala')
