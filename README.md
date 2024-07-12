@@ -3,7 +3,28 @@
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 Projeto de Administração de Redes de Computadores (ADC), Instalação de Equipamentos de Redes (IEQ) e Telefonia IP (IPT), semestre 2024.1. Será usado um [modelo de jogo](jogo-modelo.md) para o desenvolvimento ao longo do semestre.
- 
+
+## Configuração do ambiente
+
+Servidor do jogo via `systemd`:
+
+```ini
+[Unit]
+Description=<Descritivo>
+Documentation=<URL do repositório>
+After=network.target
+
+[Service]
+Environment=PORT=3000
+Type=simple
+WorkingDirectory=<diretório local do repositório>
+ExecStart=<caminho do npm> start
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+```
+
 ## Equipes
 
 | Equipe | Jogo |
