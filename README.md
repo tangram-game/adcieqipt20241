@@ -6,6 +6,18 @@ Projeto de Administração de Redes de Computadores (ADC), Instalação de Equip
 
 ## Configuração do ambiente
 
+Proxy reverso NGINX:
+
+```
+location / {
+	proxy_pass http://localhost:3000/;
+	proxy_http_version 1.1;
+	proxy_set_header Upgrade $http_upgrade;
+	proxy_set_header Connection "Upgrade";
+	proxy_set_header Host $host;
+}
+```
+
 Servidor do jogo via `systemd`:
 
 ```ini
