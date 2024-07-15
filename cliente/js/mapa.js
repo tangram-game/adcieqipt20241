@@ -209,8 +209,8 @@ export default class mapa extends Phaser.Scene {
       .on('pointerdown', () => {
         // Toca o som da coruja
         this.corujaPio.play()
-        // Altera o frame do botão para pressionado
 
+        // Altera o frame do botão para pressionado
         this.cima.setFrame(1)
 
         // Faz o personagem voar para cima
