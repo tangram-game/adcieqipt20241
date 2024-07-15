@@ -16,7 +16,7 @@ export default class sala extends Phaser.Scene {
     this.iniciar = this.sound.add('iniciar')
 
     // Adiciona a imagem de fundo
-    this.add.image(400, 225, 'fundo')
+    this.add.image(400, 225, 'fundo').setTint(0xaaaaaa)
 
     // Adiciona o texto da sala
     this.mensagem = this.add.text(100, 50, 'Escolha a sala:', {
