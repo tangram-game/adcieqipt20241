@@ -14,7 +14,7 @@ export default class finalTriste extends Phaser.Scene {
     })
       .setInteractive()
       .on('pointerdown', () => {
-        location.reload()
+        window.location.reload()
       })
   }
 
