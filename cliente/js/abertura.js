@@ -20,6 +20,9 @@ export default class abertura extends Phaser.Scene {
         this.scene.stop('abertura')
         this.scene.start('sala')
       })
+      .on('pointerup', () => {
+        this.scale.startFullscreen()
+      })
   }
 
   update () {
