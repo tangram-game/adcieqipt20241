@@ -1,3 +1,6 @@
+import Phaser from 'phaser'
+import axios from 'axios'
+
 export default class finalFeliz extends Phaser.Scene {
   constructor () {
     super('finalFeliz')
@@ -18,15 +21,12 @@ export default class finalFeliz extends Phaser.Scene {
       })
 
     // Inicializa o Google Sign-In
-    google.accounts.id.initialize({
+    globalThis.google.accounts.id.initialize({
       client_id: '331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com',
       callback: (res) => {
         if (res.error) {
           console.error(res.error)
         } else {
-          globalThis.game.jwt = jwtDecode(res.credential)
-          this.mensagem.setText(`Parabéns, ${globalThis.game.jwt.given_name}!`)
-
           axios.post('https://feira-de-jogos.dev.br/api/v2/credit', {
             product: 8, // id do jogo cadastrado no banco de dados da Feira de Jogos
             value: 100 // crédito em tijolinhos
@@ -46,7 +46,7 @@ export default class finalFeliz extends Phaser.Scene {
     })
 
     // Exibe o prompt de login
-    google.accounts.id.prompt((notification) => {
+    globalThis.google.accounts.id.prompt((notification) => {
       if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
         google.accounts.id.prompt()
       }
