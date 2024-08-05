@@ -22,7 +22,7 @@ export default class finalFeliz extends Phaser.Scene {
 
     // Inicializa o Google Sign-In
     globalThis.google.accounts.id.initialize({
-      client_id: '331191695151-ku8mdhd76pc2k36itas8lm722krn0u64.apps.googleusercontent.com',
+      client_id: '608488110439-e52klas5mi0dh3gd3me08198oru3epg5.apps.googleusercontent.com',
       callback: (res) => {
         if (res.error) {
           console.error(res.error)
