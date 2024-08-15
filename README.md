@@ -1,8 +1,47 @@
-# ADC/IEQ/IPT 2024.1
+## Hidden Forest
 
-[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+![PHOTO-2024-08-11-21-49-24](https://github.com/user-attachments/assets/a91d273f-5a0c-4014-ab42-f02deb3a1051)
 
-Projeto de Administração de Redes de Computadores (ADC), Instalação de Equipamentos de Redes (IEQ) e Telefonia IP (IPT), semestre 2024.1. Será usado um [modelo de jogo](jogo-modelo.md) para o desenvolvimento ao longo do semestre: https://feira-de-jogos.dev.br/adcieqipt20241.
+## Premissa do Jogo
+
+Dois amigos de infância Merlyn e Donald caminhavam em uma floresta a fim de coletar frutas e flores diferentes. Eles só não esperavam por uma feiticeira que se sentiu intimidada pela presença dos mesmos. 
+Os dois foram transformados em corujas e separados na floresta, cada um em um polo diferente. A velha feiticeira deu até às 6h da manhã do dia seguinte para se encontrarem, caso contrário, serão corujas para toda a eternidade.  
+
+## Referências do jogo
+Filmes:
+Ghost in the Shell;
+Paprika;
+Matrix;
+Cubo.
+
+Na literatura:
+Jorge Luis Borges: A Bilbioteca de Babel;
+Philip K. Dick: Ubik;
+William Gibson: Neuromancer.
+
+## Jogo Ideal
+
+O jogo ideal seria uma jornada pelo reencontro dos personagens, a tempo para que não virem eternas corujas. 
+
+Donald, 18 anos, é alguém centrado, objetivo e focado. Merlyn, 18 anos, é sentimental, muito cuidadosa e inteligente. A feiticeira é na verdade uma antiga colega de classe, que tinha muita inveja da amizade dos dois. O jogo terá essa descoberta ao final, atravessando a floresta. 
+Terão que enfrentar diversos desafios e labirintos, que irão despertar seus maiores medos. 
+Quando finalmente conseguem chegar ao final do labirinto de árvores e se reencontram, a feiticeira frustrada, os transforma novamente em humanos para que possam retornar à civilização. 
+
+## Regras
+
+A cada intervalo de tempo, o mapa muda: as camadas do labirinto se alternam na tela, alterando as áreas de colisão. O labirinto, na prática, está vivo. E pulsando. Há apenas um único inimigo: o próprio jogador (e seus medos).
+
+## Objetivo
+
+Para conseguirem terminar o jogo, basta chegar ao final do labirinto de árvores: o centro onde os amigos se encontrarão e, juntos, se transformarão novamente em humanos pela feiticeira, cumprindo sua promessa. 
+
+## Formas de receitas
+Como formas de receita, estão previstos:
+
+Compra de créditos para estender o relógio;
+Personalização de personagens e mapas.
+
+
 
 ## Configuração do ambiente
 
@@ -36,15 +75,3 @@ Restart=on-failure
 [Install]
 WantedBy=multi-user.target
 ```
-
-## Equipes
-
-| Equipe | Jogo |
-|-|-|
-| [Bernardo, Filipe e Vitor Ademir](https://github.com/VFB-Corporation) | [Jogo](https://github.com/VFB-Corporation/JOGO) |
-| [Mariana e Vitor Hugo](https://github.com/mvplay-s) | [Pilatus](https://github.com/mvplay-s/Pilatus) |
-| [Náthally e Guilherme](https://github.com/vimdoalegrete) | [jogo](https://github.com/vimdoalegrete/jogo) | 
-| [Davi e Gabriel](https://github.com/huntersofancientbeasts)|[Hunters of Ancient Beasts](https://github.com/huntersofancientbeasts/jogo) |
-| [Erika e Yago](https://github.com/erikayago) | [jogo](https://github.com/erikayago/-jogo-feria-ye) |
-| [Gustavo e Vitória]() | [jogo](https://github.com/tangram-game/adcieqipt20241) |
-| [Leandro e Nikolas](https://github.com/nlentertainment) | [jogo](https://github.com/nlentertainment/jogo) |
